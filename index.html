@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta charset="UTF-8" />
+  <title>Page Title</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="" />
+
+  <body>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script>
+      const dataset = [12, 31, 22, 17, 25, 18, 29, 14, 9];
+
+      d3.select("body")
+        .selectAll("h2")
+        .data(dataset)
+        .enter()
+        .append("h2")
+        .text((d) => d + " USD");
+      // Add your code below this line
+
+      // Add your code above this line
+    </script>
+  </body>
+</html>

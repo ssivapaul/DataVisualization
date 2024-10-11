@@ -4,6 +4,7 @@
   <title>Page Title</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="" />
+
   <style>
     .bar {
       width: 25px;
@@ -12,6 +13,7 @@
       background-color: blue;
     }
   </style>
+
   <body>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script>
@@ -21,8 +23,9 @@
         .data(dataset)
         .enter()
         .append("div")
+        .attr("class", "bar")
         // Add your code below this line
-        .attr("class", "bar");
+        .style("height", (d) => d + "px");
       // Add your code above this line
     </script>
   </body>

@@ -1,31 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-  <meta charset="UTF-8" />
-  <title>Page Title</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link rel="stylesheet" href="" />
-
+  <head>
+    <meta charset="UTF-8" />
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="stylesheet" href="" />
+  </head>
   <style>
-    .bar {
-      width: 25px;
-      height: 100px;
-      display: inline-block;
-      background-color: blue;
+    svg {
+      background-color: pink;
     }
   </style>
-
   <body>
-    <script src="https://d3js.org/d3.v4.min.js"></script>
     <script>
       const dataset = [12, 31, 22, 17, 25, 18, 29, 14, 9];
-      d3.select("body")
-        .selectAll("div")
-        .data(dataset)
-        .enter()
-        .append("div")
-        .attr("class", "bar")
+
+      const w = 500;
+      const h = 100;
+
+      const svg = d3
+        .select("body")
         // Add your code below this line
-        .style("height", (d) => d + "px");
+        .append("svg")
+        .attr("width", "w")
+        .attr("height", "h");
       // Add your code above this line
     </script>
   </body>

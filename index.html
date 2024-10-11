@@ -4,7 +4,14 @@
   <title>Page Title</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="" />
-
+  <style>
+    .bar {
+      width: 25px;
+      height: 100px;
+      display: inline-block;
+      background-color: blue;
+    }
+  </style>
   <body>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script>
@@ -13,13 +20,9 @@
         .selectAll("div")
         .data(dataset)
         .enter()
-        .append("h2")
-        .text((d) => d + " USD")
+        .append("div")
         // Add your code below this line
-        .style("color", (d) => {
-          if (d < 20) return "red";
-          else return "green";
-        });
+        .attr("class", "bar");
       // Add your code above this line
     </script>
   </body>

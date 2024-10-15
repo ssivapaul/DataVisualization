@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script src="https://d3js.org/d3.v7.min.js"></script></script>
     <meta charset="UTF-8" />
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -17,14 +18,22 @@
         .select("body")
         .append("svg")
         .attr("width", w)
-        .attr("height", h)
-        // Add your code below this line
+        .attr("height", h);
+
+      svg
+        .selectAll("rect")
+        .data(dataset)
+        .enter()
         .append("rect")
-        .attr("x", 0)
+        .attr("x", (d, i) => {
+          // Add your code below this line
+          return i * 30;
+
+          // Add your code above this line
+        })
         .attr("y", 0)
         .attr("width", 25)
         .attr("height", 100);
-      // Add your code above this line
     </script>
   </body>
 </html>

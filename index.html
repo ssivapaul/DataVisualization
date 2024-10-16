@@ -7,16 +7,18 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="stylesheet" href="" />
   </head>
-<body>
+
+  <body>
   <script>
+    const positionData = [[1, 7, -4],[6, 3, 8],[2, 9, 3]]
     // Add your code below this line
-    const scale = d3.scaleLinear();
-    scale.domain([250, 500]).range([10, 150])
+    const maxX = d3.max(positionData, (d) => d[2]);
+    const output = maxX; // Change this line
     // Add your code above this line
-    const output = scale(50);
+
     d3.select("body")
       .append("h2")
-      .text(output);
+      .text(output)
   </script>
 </body>
 </html>

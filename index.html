@@ -24,13 +24,12 @@
        .enter()
        .append("rect")
        .attr("x", (d, i) => i * 30)
-       .attr("y", (d, i) => {
-         // Add your code below this line
-          return 100-3*d;
-         // Add your code above this line
-       })
+       .attr("y", (d, i) => h - 3 * d)
        .attr("width", 25)
-       .attr("height", (d, i) => 3 * d);
+       .attr("height", (d, i) => 3 * d)
+       // Add your code below this line
+        .attr("fill", "navy");
+       // Add your code above this line
   </script>
 </body>
 </html>

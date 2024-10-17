@@ -9,10 +9,11 @@
   </head>
 <script>
   document.addEventListener('DOMContentLoaded', function(){
-    // Add your code below this line
     document.getElementById('getMessage').onclick = function(){
-    };
-    // Add your code above this line
+      // Add your code below this line
+        document.getElementsByClassName('message')[0].textContent="Here is the message";
+      // Add your code above this line
+    }
   });
 </script>
 
@@ -27,8 +28,8 @@
   }
   .box {
     border-radius: 5px;
-    background-color: #EEE;
-    padding: 20px 10px;
+    background-color: #eee;
+    padding: 20px 5px;
   }
   button {
     color: white;

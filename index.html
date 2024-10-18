@@ -6,24 +6,19 @@
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="stylesheet" href="" />
-  </head>
-<script>
-  document.addEventListener('DOMContentLoaded', function(){
-    document.getElementById('getMessage').onclick = function(){
+    <script>
+  document.addEventListener('DOMContentLoaded',function(){
+    document.getElementById('getMessage').onclick= () => {
       // Add your code below this line
-      const req = new XMLHttpRequest();
-      req.open("GET",'/json/cats.json',true);
-      req.send();
-      req.onload = function(){
-        const json = JSON.parse(req.responseText);
-        document.getElementsByClassName('message')[0].innerHTML = JSON.stringify(json);
-};
-
+      fetch('/json/cats.json')
+        .then(response => response.json())
+        .then(data => {
+      document.getElementById('message').innerHTML = JSON.stringify(data);
+  })
       // Add your code above this line
     };
   });
 </script>
-
 <style>
   body {
     text-align: center;
@@ -50,9 +45,8 @@
     border: 1px solid #0F5897;
   }
 </style>
-
 <h1>Cat Photo Finder</h1>
-<p class="message box">
+<p id="message" class="box">
   The message will go here
 </p>
 <p>

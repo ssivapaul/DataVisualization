@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bar Chart with D3.js</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style></style>
+  </head>
+  <body>
+    <h2>Bar Chart Example</h2>
+    <div id="chart"></div>
+    <script>
+      // Set up SVG container
+      const svg = d3
+        .select("body")
+        .append("svg")
+        .attr("width", 500)
+        .attr("height", 300)
+        .attr("style", "border: 2px solid red");
+
+      // Define scales
+      const xScale = d3.scaleLinear().domain([0, 100]).range([50, 450]);
+      // Create the x-axis
+      const xAxis = d3.axisBottom(xScale).ticks(5).tickFormat(d3.format(".2f"));
+      // Add x-axis to SVG
+      svg.append("g").attr("transform", "translate(0, 250)").call(xAxis);
+      //----------------------------------------------------------------
+      // Define scales
+      const yScale = d3.scaleLinear().domain([0, 100]).range([250, 0]);
+      // Create the y-axis
+      const yAxis = d3.axisLeft(yScale).ticks(5).tickFormat(d3.format(".2f"));
+      // Add y-axis to SVG
+      svg.append("g").attr("transform", "translate(50, 0)").call(yAxis);
+      // Rotate tick labels
+      svg
+        .selectAll(".tick text")
+        .attr("transform", "rotate(-45)")
+        .style("text-anchor", "end")
+        .style("font-size", "12px");
+    </script>
+  </body>
+</html>

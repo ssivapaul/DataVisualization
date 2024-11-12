@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Visualize Data with a Bar Chart</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+      #tooltip {
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 5px;
+        border-radius: 5px;
+        font-size: 12px;
+        font-family: "Helvetica Neue", Helvetica, Arial;
+        z-index: 100;
+      }
+      .bar {
+        fill: lightblue;
+      }
+      .bar:hover {
+        fill: blue;
+        transition: fill 1s linear;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="title">Title</h1>
+    <svg id="chart"></svg>
+    <script src="index.js"></script>
+  </body>
+</html>

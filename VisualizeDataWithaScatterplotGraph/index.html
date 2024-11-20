@@ -6,33 +6,41 @@
     <title>Visualize Data with a Scatterplot Graph</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
-      html {
-        --margin-size: 5%;
+      div {
+        position: absolute;
+        background-color: rgba(0, 0, 0);
+        color: white;
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-family: "Helvetica Neue", Helvetica, Arial;
+        z-index: 100;
       }
-
-      body {
+      /* body {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         background-color: lightgray;
-      }
+      } */
 
       svg {
         border-radius: 10px;
-        margin-bottom: var(--margin-size);
-        background-color: lightblue;
+        /*background-color: lightblue; */
       }
 
       #title {
         font-size: 2em;
         text-align: center;
       }
+
+      .legend {
+        font-size: 12px;
+      }
     </style>
   </head>
   <body>
     <h1 id="title">Scatterplot Graph</h1>
-    <div id=""></div>
     <script src="index.js"></script>
   </body>
 </html>

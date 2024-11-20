@@ -2,15 +2,14 @@ d3.json(
   "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/cyclist-data.json"
 ).then((data) => {
   // Set dimensions and margins
-  const width = 1000;
+  const width = 600;
   const height = 500;
-  const margin = { top: 70, right: 70, bottom: 70, left: 70 };
-
+  const margin = { top: 70, right: 500, bottom: 70, left: 100 };
+  // create tool tip
+  const tooltip = d3.select("body").append("div");
   // Create an SVG element
   const svg = d3
     .select("body")
-    .attr("position", "relative")
-    .attr("style", "border: 2px solid red")
     .append("svg")
     .attr("style", "border: 2px solid green")
     .attr("width", width + margin.left + margin.right)
@@ -19,39 +18,35 @@ d3.json(
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
   // Convert time strings to Date objects
-  // Define the parseTime function for "mm:ss" format
-  const parseTime = d3.timeParse("%M:%S");
+  const parseTime = d3.timeParse("%M:%S"); // Define parseTime fn for "mm:ss" format
   data.forEach((d) => {
     d.date = parseTime(d.Time);
-    console.log(d.date);
-    console.log(d.Time);
   });
 
   // Define the xScale using d3.scaleTime()
-  const xScale = d3
+  const yScale = d3
     .scaleTime()
-    .domain(d3.extent(data, (d) => d.date)) // Set domain based on the parsed dates
-    .range([0, width]); // Define the range
+    .domain([d3.min(data, (d) => d.date), d3.max(data, (d) => d.date)])
+    //.domain(d3.extent(data, (d) => d.date)) // Set domain based on the parsed dates
+    .range([height, 0]); // Define the range
 
   // Define yScale (yAxis scale)
-  const yScale = d3
+  const xScale = d3
     .scaleLinear()
-    .domain([0, d3.max(data, (d) => d.Year)])
-    .range([height, 0]);
+    .domain([d3.min(data, (d) => d.Year - 1), d3.max(data, (d) => d.Year)])
+    .range([0, width]);
 
   // Set up the x-axis with custom tick format
   const xAxis = d3.axisBottom(xScale);
-
   // Define y-axis
-  const yAxis = d3.axisLeft(yScale);
-
+  const yAxis = d3.axisLeft(yScale).tickFormat(d3.timeFormat("%M:%S"));
   // Append the x-axis to the SVG
   svg
     .append("g")
     .attr("transform", `translate(0,${height})`)
     .call(xAxis)
     .append("text")
-    .attr("fill", "red")
+    .attr("fill", "blue")
     .attr("x", width / 2)
     .attr("y", 40)
     .attr("text-anchor", "middle")
@@ -63,13 +58,15 @@ d3.json(
     .append("g")
     .call(yAxis)
     .append("text")
-    .attr("fill", "green")
-    .attr("y", -30)
+    .attr("fill", "blue")
+    .attr("y", -50)
     .attr("x", -height / 2)
     .attr("transform", "rotate(-90)")
     .attr("text-anchor", "middle")
     .text("Year")
     .attr("font-size", "1rem");
+
+  const timeFormat = d3.timeFormat("%MM:%SS");
 
   // Plotting the data (for example, as circles)
   svg
@@ -77,8 +74,69 @@ d3.json(
     .data(data)
     .enter()
     .append("circle")
-    .attr("cx", (d) => xScale(d.date))
-    .attr("cy", (d) => height - d.Year) // Adjusting value scaling for example purposes
+    .attr("cx", (d) => xScale(d.Year))
+    .attr("cy", (d) => yScale(d.date))
     .attr("r", 5)
-    .attr("fill", "steelblue");
+    .attr("fill", (d) => (d.Doping ? "red" : "green"))
+    .style("cursor", "pointer")
+    .on("mouseover", showTooltip)
+    .on("mouseout", hideTooltip);
+
+  function showTooltip(event, d) {
+    tooltip
+      .style("opacity", 1)
+      .style("position", "absolute")
+      .style("left", event.pageX + 20 + "px")
+      .style("top", event.pageY - 10 + "px")
+      .html(
+        ` Name: ${d.Name} <br/> 
+            Nationality: ${d.Nationality} <br/>
+            Year: ${d.Year}, 
+            Time: ${timeFormat(d.date)} <br/> <br/>
+            Doping alegations: 
+            <span style="color: ${d.Doping ? "red" : "green"}"><b>${
+          !d.Doping ? "None" : d.Doping
+        }</b></span>`
+      );
+  }
+
+  function hideTooltip() {
+    tooltip.style("opacity", 0);
+  }
+
+  // Legend data
+  const legendData = [
+    { description: "No doping allegations", color: "green" },
+    { description: "Riders with doping allegations", color: "red" },
+  ];
+
+  // Legend
+  const legend = svg
+    .append("g")
+    .attr("class", "legend")
+    .attr("transform", `translate(${width + 50}, ${margin.top + 50})`);
+
+  legend
+    .selectAll("rect")
+    .data(legendData)
+    .enter()
+    .append("rect")
+    .attr("stroke-width", 1)
+    .attr("stroke", "black")
+    .attr("x", 0)
+    .attr("y", (d, i) => i * 40)
+    .attr("width", 25)
+    .attr("height", 25)
+    .attr("fill", (d) => d.color);
+
+  legend
+    .selectAll("text")
+    .data(legendData)
+    .enter()
+    .append("text")
+    .attr("x", 40)
+    .attr("y", (d, i) => i * 40 + 12)
+    .text((d) => d.description)
+    .style("font-size", "20px")
+    .attr("alignment-baseline", "middle"); // Legend data
 });

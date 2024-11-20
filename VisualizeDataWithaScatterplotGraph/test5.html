@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>D3 Scatter Plot with Legend</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+      .legend {
+        font-size: 12px;
+      }
+      .legend rect {
+        stroke-width: 1;
+        stroke: black;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      // Sample data
+      const data = [
+        { x: 10, y: 20, group: "A" },
+        { x: 20, y: 30, group: "B" },
+        { x: 30, y: 40, group: "A" },
+        { x: 40, y: 50, group: "B" },
+      ];
+
+      const width = 600,
+        height = 600,
+        margin = 50;
+
+      // SVG container
+      const svg = d3
+        .select("body")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .style("border", "3px solid red");
+
+      // Scales
+      const xScale = d3
+        .scaleLinear()
+        .domain([0, d3.max(data, (d) => d.x) + 10])
+        .range([margin, width - margin]);
+
+      const yScale = d3
+        .scaleLinear()
+        .domain([0, d3.max(data, (d) => d.y) + 10])
+        .range([height - margin, margin]);
+
+      const colorScale = d3
+        .scaleOrdinal()
+        .domain(["A", "B"])
+        .range(["blue", "orange"]);
+
+      // Axes
+      svg
+        .append("g")
+        .attr("transform", `translate(0,${height - margin})`)
+        .call(d3.axisBottom(xScale));
+
+      svg
+        .append("g")
+        .attr("transform", `translate(${margin},0)`)
+        .call(d3.axisLeft(yScale));
+
+      // Scatter points
+      svg
+        .selectAll("circle")
+        .data(data)
+        .join("circle")
+        .attr("cx", (d) => xScale(d.x))
+        .attr("cy", (d) => yScale(d.y))
+        .attr("r", 5)
+        .attr("fill", (d) => colorScale(d.group));
+
+      // Legend data
+      const legendData = [
+        { group: "A", color: "blue" },
+        { group: "B", color: "orange" },
+      ];
+
+      // Legend
+      const legend = svg
+        .append("g")
+        .attr("class", "legend")
+        .attr("transform", `translate(${width - 100}, ${margin})`);
+
+      legend
+        .selectAll("rect")
+        .data(legendData)
+        .enter()
+        .append("rect")
+        .attr("x", 0)
+        .attr("y", (d, i) => i * 40)
+        .attr("width", 25)
+        .attr("height", 25)
+        .attr("fill", (d) => d.color);
+
+      legend
+        .selectAll("text")
+        .data(legendData)
+        .enter()
+        .append("text)")
+        .attr("x", 40)
+        .attr("y", (d, i) => i * 40 + 12)
+        .text((d) => d.group)
+        .style("font-size", "20px")
+        .attr("alignment-baseline", "middle");
+    </script>
+  </body>
+</html>

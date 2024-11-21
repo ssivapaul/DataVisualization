@@ -6,7 +6,7 @@ d3.json(
   const height = 500;
   const margin = { top: 70, right: 500, bottom: 70, left: 100 };
   // create tool tip
-  const tooltip = d3.select("body").append("div");
+  const tooltip = d3.select("body").append("div").attr("id", "tooltip");
   // Create an SVG element
   const svg = d3
     .select("body")
@@ -21,6 +21,7 @@ d3.json(
   const parseTime = d3.timeParse("%M:%S"); // Define parseTime fn for "mm:ss" format
   data.forEach((d) => {
     d.date = parseTime(d.Time);
+    d.Year = parseInt(d.Year);
   });
 
   // Define the xScale using d3.scaleTime()
@@ -33,16 +34,17 @@ d3.json(
   // Define yScale (yAxis scale)
   const xScale = d3
     .scaleLinear()
-    .domain([d3.min(data, (d) => d.Year - 1), d3.max(data, (d) => d.Year)])
+    .domain([d3.min(data, (d) => d.Year), d3.max(data, (d) => d.Year)])
     .range([0, width]);
 
   // Set up the x-axis with custom tick format
-  const xAxis = d3.axisBottom(xScale);
+  const xAxis = d3.axisBottom(xScale).tickFormat((d) => d);
   // Define y-axis
   const yAxis = d3.axisLeft(yScale).tickFormat(d3.timeFormat("%M:%S"));
   // Append the x-axis to the SVG
   svg
     .append("g")
+    .attr("id", "x-axis")
     .attr("transform", `translate(0,${height})`)
     .call(xAxis)
     .append("text")
@@ -50,12 +52,13 @@ d3.json(
     .attr("x", width / 2)
     .attr("y", 40)
     .attr("text-anchor", "middle")
-    .text("Time (mm:ss)")
+    .text("Year")
     .attr("font-size", "1rem");
 
   // Append y-axis to the SVG
   svg
     .append("g")
+    .attr("id", "y-axis")
     .call(yAxis)
     .append("text")
     .attr("fill", "blue")
@@ -63,10 +66,10 @@ d3.json(
     .attr("x", -height / 2)
     .attr("transform", "rotate(-90)")
     .attr("text-anchor", "middle")
-    .text("Year")
+    .text("Time (mm:ss)")
     .attr("font-size", "1rem");
 
-  const timeFormat = d3.timeFormat("%MM:%SS");
+  const timeFormat = d3.timeFormat("%Mm:%Ss");
 
   // Plotting the data (for example, as circles)
   svg
@@ -74,11 +77,13 @@ d3.json(
     .data(data)
     .enter()
     .append("circle")
+    .attr("class", "dot")
     .attr("cx", (d) => xScale(d.Year))
     .attr("cy", (d) => yScale(d.date))
+    .attr("data-xvalue", (d) => d.Year)
+    .attr("data-yvalue", (d) => d.date)
     .attr("r", 5)
     .attr("fill", (d) => (d.Doping ? "red" : "green"))
-    .style("cursor", "pointer")
     .on("mouseover", showTooltip)
     .on("mouseout", hideTooltip);
 
@@ -95,9 +100,10 @@ d3.json(
             Time: ${timeFormat(d.date)} <br/> <br/>
             Doping alegations: 
             <span style="color: ${d.Doping ? "red" : "green"}"><b>${
-          !d.Doping ? "None" : d.Doping
+          d.Doping ? d.Doping : "None"
         }</b></span>`
-      );
+      )
+      .attr("data-year", d.Year);
   }
 
   function hideTooltip() {
@@ -114,6 +120,7 @@ d3.json(
   const legend = svg
     .append("g")
     .attr("class", "legend")
+    .attr("id", "legend")
     .attr("transform", `translate(${width + 50}, ${margin.top + 50})`);
 
   legend

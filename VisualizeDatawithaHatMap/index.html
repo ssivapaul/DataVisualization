@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title id="title">Visualize Data with a Heat Map</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style type="text/css">
+      html {
+        margin: 20px;
+        padding: 0;
+        height: 100%;
+      }
+      body {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        justify-items: center;
+      }
+      div {
+        position: absolute;
+        background-color: rgba(0, 0, 0);
+        color: white;
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-family: "Helvetica Neue", Helvetica, Arial;
+        z-index: 100;
+      }
+      svg {
+        border-radius: 30px;
+        margin-bottom: 50px;
+        background-color: lightgrey;
+      }
+
+      h1 {
+        font-size: 2rem;
+        font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+          "Lucida Sans", Arial, sans-serif;
+      }
+
+      p {
+        margin-top: -10px;
+        font-size: 1.5rem;
+        font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+          "Lucida Sans", Arial, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="description">Monthly Global Land-Surface Temperature</h1>
+    <p>1753 - 2015: base temperature 8.66℃</p>
+    <script src="index.js"></script>
+  </body>
+</html>

@@ -34,7 +34,7 @@ d3.json(
   // Define yScale (yAxis scale)
   const xScale = d3
     .scaleLinear()
-    .domain([d3.min(data, (d) => d.Year), d3.max(data, (d) => d.Year)])
+    .domain([d3.min(data, (d) => d.Year) - 1, d3.max(data, (d) => d.Year) + 1])
     .range([0, width]);
 
   // Set up the x-axis with custom tick format

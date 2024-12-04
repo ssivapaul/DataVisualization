@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Treemap with Different Colors</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+      .node {
+        font-size: 10px;
+        text-anchor: middle;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      // Data for the treemap
+      const data = {
+        name: "root",
+        children: [
+          { name: "A", value: 100 },
+          { name: "B", value: 200 },
+          { name: "C", value: 150 },
+          { name: "D", value: 80 },
+          { name: "E", value: 50 },
+        ],
+      };
+
+      // Set dimensions
+      const width = 600;
+      const height = 400;
+
+      // Create a color scale
+      const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+      // Create a treemap layout
+      const treemap = d3.treemap().size([width, height]).padding(1);
+
+      // Convert the data to a hierarchy
+      const root = d3.hierarchy(data).sum((d) => d.value);
+
+      // Apply the treemap layout
+      treemap(root);
+
+      // Create an SVG container
+      const svg = d3
+        .select("body")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+      // Add rectangles for each node
+      svg
+        .selectAll("rect")
+        .data(root.leaves())
+        .join("rect")
+        .attr("x", (d) => d.x0)
+        .attr("y", (d) => d.y0)
+        .attr("width", (d) => d.x1 - d.x0)
+        .attr("height", (d) => d.y1 - d.y0)
+        .attr("fill", (d) => color(d.data.name))
+        .attr("stroke", "white");
+
+      // Add labels
+      svg
+        .selectAll("text")
+        .data(root.leaves())
+        .join("text")
+        .attr("x", (d) => (d.x0 + d.x1) / 2)
+        .attr("y", (d) => (d.y0 + d.y1) / 2)
+        .text((d) => d.data.name)
+        .attr("class", "node")
+        .style("fill", "white");
+    </script>
+  </body>
+</html>

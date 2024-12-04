@@ -40,7 +40,7 @@ d3.json(
   // Set up the x-axis with custom tick format
   const xAxis = d3.axisBottom(xScale).tickFormat((d) => d);
   // Define y-axis
-  const yAxis = d3.axisLeft(yScale).tickFormat(d3.timeFormat("%M:%S"));
+  const yAxis = d3.axisLeft(yScale).tickFormat(d3.timeFormat("%Mm:%Ss"));
   // Append the x-axis to the SVG
   svg
     .append("g")

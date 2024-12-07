@@ -13,26 +13,33 @@
       }
 
       body {
-        position: relative;
-        height: 100vh;
-        width: 100%;
-        margin: 10px;
-        padding: 0;
         display: flex;
         flex-direction: column;
         align-items: center;
         font-family: Arial, sans-serif;
       }
-      svg {
-        border: 1px solid #00f;
+      div {
+        position: absolute;
+        background-color: rgba(0, 0, 0);
+        color: white;
+        padding: 10px;
         border-radius: 10px;
-        background-color: rgba(0, 0, 255, 0.1);
+        font-size: 0.7rem;
+        font-family: "Helvetica Neue", Helvetica, Arial;
+        z-index: 100;
+      }
+
+      #legend {
+        margin-bottom: 20px;
       }
     </style>
   </head>
   <body>
     <h1 id="title">Visualize Data with a treemap Diagram</h1>
-    <p id="description"></p>
+    <p id="description">Top 100 Highest Grossing Movies Grouped By Genre</p>
+    <svg id="tree-map"></svg>
+    <svg id="legend"></svg>
+    <div id="tooltip"></div>
     <script src="index.js"></script>
     <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
   </body>
